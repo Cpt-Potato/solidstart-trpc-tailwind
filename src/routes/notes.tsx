@@ -2,6 +2,11 @@ import { createSignal, For, onMount, ParentComponent, Suspense } from 'solid-js'
 import { Title } from 'solid-start';
 import { trpc } from '~/utils/trpc';
 
+type Note = {
+  id: string;
+  text: string;
+};
+
 const Notes: ParentComponent = () => {
   let noteTextInput: HTMLInputElement;
 
@@ -9,21 +14,16 @@ const Notes: ParentComponent = () => {
   const createNoteMutation = trpc.createNote.useMutation();
 
   onMount(() => refetchNotes());
-  const [notes, setNotes] = createSignal([
-    {
-      id: null,
-      text: '',
-    },
-  ]);
+  const [notes, setNotes] = createSignal<Note[]>();
 
   const refetchNotes = async () => {
-    const res = await getNotes.refetch();
-    console.log(res.data);
-    setNotes(res.data);
+    const { data } = await getNotes.refetch();
+    console.log(data);
+    setNotes(data);
   };
   const createNote = async () => {
     if (!noteTextInput.value.trim()) return;
-    createNoteMutation.mutate({ text: noteTextInput.value });
+    await createNoteMutation.mutate({ text: noteTextInput.value.trim() });
     noteTextInput.value = '';
     await refetchNotes();
   };
