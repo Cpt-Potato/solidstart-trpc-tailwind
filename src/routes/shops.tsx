@@ -1,15 +1,17 @@
-import { createSignal, ParentComponent, Suspense } from 'solid-js';
+import { createSignal, Suspense } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { Title } from 'solid-start';
 import { trpc } from '~/utils/trpc';
 import ForComponent from '~/components/ForComponent';
+
+type Step = 'city' | 'district' | 'shop' | 'shoppingCart';
 
 const Shops = () => {
   const cities = trpc.getCities.useQuery(() => {});
   const cityDistricts = trpc.getDistricts.useMutation();
   const districtShops = trpc.getShops.useMutation();
 
-  const [step, setStep] = createSignal('city');
+  const [step, setStep] = createSignal<Step>('city');
   const [city, setCity] = createSignal('');
   const [district, setDistrict] = createSignal('');
   const [shop, setShop] = createSignal('');
