@@ -1,11 +1,9 @@
-import { ParentComponent, Switch, Match } from "solid-js";
-import { Title } from "solid-start";
-import { trpc } from "~/utils/trpc";
+import { ParentComponent, Switch, Match } from 'solid-js';
+import { Title } from 'solid-start';
+import { trpc } from '~/utils/trpc';
 
-interface IHomeProps {}
-
-const Home: ParentComponent<IHomeProps> = ({}) => {
-  const hello = trpc.hello.useQuery(() => ({ name: "from tRPC" }));
+const Home: ParentComponent = () => {
+  const hello = trpc.hello.useQuery(() => ({ name: 'from tRPC' }));
 
   return (
     <>

@@ -1,4 +1,10 @@
-import { createSignal, For, onMount, ParentComponent, Suspense } from 'solid-js';
+import {
+  createSignal,
+  For,
+  onMount,
+  ParentComponent,
+  Suspense,
+} from 'solid-js';
 import { Title } from 'solid-start';
 import { trpc } from '~/utils/trpc';
 
@@ -21,11 +27,13 @@ const Notes: ParentComponent = () => {
     console.log(data);
     setNotes(data);
   };
-  const createNote = async () => {
-    if (!noteTextInput.value.trim()) return;
-    await createNoteMutation.mutate({ text: noteTextInput.value.trim() });
+  const createNote = () => {
+    if (!noteTextInput.value.trim()) {
+      return;
+    }
+    createNoteMutation.mutate({ text: noteTextInput.value.trim() });
     noteTextInput.value = '';
-    await refetchNotes();
+    refetchNotes();
   };
 
   return (
@@ -36,8 +44,15 @@ const Notes: ParentComponent = () => {
           <p class="font-bold text-4xl">Notes</p>
         </div>
         <div>
-          <input ref={noteTextInput} type="text" class="mx-2 border-2 focus:outline-amber-300" />
-          <button class="p-1.5 bg-green-400 rounded-xl hover:bg-green-500" onclick={createNote}>
+          <input
+            ref={noteTextInput}
+            type="text"
+            class="mx-2 border-2 focus:outline-amber-300"
+          />
+          <button
+            class="p-1.5 bg-green-400 rounded-xl hover:bg-green-500"
+            onclick={createNote}
+          >
             Добавить новую заметку
           </button>
         </div>

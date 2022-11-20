@@ -33,7 +33,9 @@ const Shops = () => {
 
   const options = {
     city: <ForComponent items={cities.data} onclick={handleCityClick} />,
-    district: <ForComponent items={cityDistricts.data} onclick={handleDistrictClick} />,
+    district: (
+      <ForComponent items={cityDistricts.data} onclick={handleDistrictClick} />
+    ),
     shop: <ForComponent items={districtShops.data} onclick={handleShopClick} />,
   };
 
@@ -47,13 +49,17 @@ const Shops = () => {
       {step() !== 'city' && (
         <button
           class="absolute top-4 right-4 p-1.5 bg-amber-400 hover:bg-amber-500 rounded-xl"
-          onClick={[setStep, 'city']}
+          onclick={[setStep, 'city']}
         >
           Сбросить
         </button>
       )}
       <div class="mt-[calc(90vh/2)] mx-auto px-2 max-w-[600px] flex justify-center items-center gap-4 flex-wrap">
-        <Suspense fallback={<div class="font-bold text-2xl text-gray-500">Loading...</div>}>
+        <Suspense
+          fallback={
+            <div class="font-bold text-2xl text-gray-500">Loading...</div>
+          }
+        >
           <Dynamic component={options[step()]} />
           {step() === 'shoppingCart' && <p>Вы выбрали: {shop()}</p>}
         </Suspense>
